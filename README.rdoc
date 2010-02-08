@@ -1,32 +1,32 @@
 = lockfile
 
-* http://github.com/#{github_username}/#{project_name}
+* http://github.com/cleverua/lockfile
 
 == DESCRIPTION:
 
-FIX (describe your package)
+This ruby gem allows you create a lock file on disk right before it yields given code block. It would not allow to yield the block again while the first one finished (ie while lock file exists). This gem currently works on UNIX operational systems.
 
-== FEATURES/PROBLEMS:
+== USAGE EXAMPLE
 
-* FIX (list of features or problems)
-
-== SYNOPSIS:
-
-  FIX (code sample of usage)
+  include Lockfile
+  
+  with_lock_file(LOCK_FILE_PATH) do
+    ... code that should not be launched simultaneously 
+  end
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* a UNIX operational system
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+  sudo gem install lockfile
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2010 FIXME full name
+Copyright (c) 2010 CleverUA
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
