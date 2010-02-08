@@ -8,11 +8,18 @@ This ruby gem allows you create a lock file on disk right before it yields given
 
 == USAGE EXAMPLE
 
+=== GENERAL USAGE
+
   include Lockfile
   
   with_lock_file(LOCK_FILE_PATH) do
     ... code that should not be launched simultaneously 
   end
+
+=== TO FORCE STOP
+  include Lockfile
+  
+  Lockfile.force_stop(LOCK_FILE_PATH)
 
 == REQUIREMENTS:
 
