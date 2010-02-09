@@ -1,39 +1,38 @@
 require 'fileutils'
 
 module Lockfile
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
+
+  def self.ensure_no_lock_file_exists(lock_file_name)
+    FileUtils.remove_file(lock_file_name, true)
+  end
   
-  def with_lock_file(lock_file_path)
-    @lock_file_path = lock_file_path
-    return false if already_running?
+  def with_lock_file(lock_file_path, write_pid = true)
+    return false if already_running?(lock_file_path)
     
     begin
-      lock
+      obtain_lock(lock_file_path, write_pid)
       yield
-      true
     ensure 
-      unlock
-      remove_instance_variable(:@lock_file_path)
+      release_lock(lock_file_path)
     end
   end
   
-  def lock
-    open(@lock_file_path, "w+") do |o|
-      o.write(Process.pid)
+  private
+
+  def obtain_lock(lf, write_pid)
+    open(lf, "w+") do |o|
+      o.write(Process.pid) if write_pid
     end  
   end
   
-  def unlock
-    FileUtils.rm(@lock_file_path, :force => true)
+  def release_lock(lf)
+    FileUtils.rm(lf, :force => true)
   end
   
-  def already_running?
-    File.exist?(@lock_file_path)
+  def already_running?(lock_file_path)
+    return File.exist?(lock_file_path)
   end
 
-  def self.force_stop(lock_file_name)
-    pid = IO.read(lock_file_name)
-    FileUtils.remove_file(lock_file_name, true)
-    system("#{property(:killall_cmd)} -9 #{pid}")
-  end
+  
 end
