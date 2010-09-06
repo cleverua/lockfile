@@ -1,31 +1,25 @@
-= lockfile Ruby Gem                 
+= lockfile
 
 * http://github.com/cleverua/lockfile
 
 == DESCRIPTION:
 
-This ruby gem will help manage processes in your application so that new process won't start if the previous one is still running. 
-It creates a lock file on disk before the first process run and rejects to launch the new ones if the lock file is still there. 
-Optionally the lock file can contan unix process ID (PID) for further use.
-
+This ruby gem allows you create a lock file on disk right before it yields given code block. It would not allow to yield the block again while the first one finished (ie while lock file exists). This gem currently works on UNIX operational systems.
 
 == USAGE EXAMPLE
 
 === GENERAL USAGE
 
-  class AppProcess
-    include Lockfile
+  include Lockfile
   
-    def perform
-      with_lock_file(LOCK_FILE_PATH) do
-        ... code that should not be launched simultaneously 
-      end
-    end
+  with_lock_file(LOCK_FILE_PATH) do
+    ... code that should not be launched simultaneously 
   end
 
-=== TO FORCE LOCK FILE REMOVAL
+=== TO FORCE STOP
+  include Lockfile
   
-  Lockfile.ensure_no_lock_file_exists(LOCK_FILE_PATH)
+  Lockfile.force_stop(LOCK_FILE_PATH)
 
 == REQUIREMENTS:
 
@@ -59,3 +53,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

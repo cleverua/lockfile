@@ -1,6 +1,7 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'helper'
 
 class TestLockfile < Test::Unit::TestCase
+
   LOCK_FILE =  File.dirname(__FILE__) + 'test.lock'
 
   class TestProcess 
@@ -21,8 +22,7 @@ class TestLockfile < Test::Unit::TestCase
     end
   end
 
-  def test_truth
-
+  should "not allow to launch other processes while the previous one has lock" do
     p1 = TestProcess.new
     p2 = TestProcess.new
     p3 = TestProcess.new
@@ -38,6 +38,5 @@ class TestLockfile < Test::Unit::TestCase
     assert p1.launched? 
     assert !p2.launched?
     assert !p3.launched?
-
   end
 end
