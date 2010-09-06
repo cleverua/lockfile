@@ -27,7 +27,7 @@ This ruby gem allows you create a lock file on disk right before it yields given
 
 == INSTALL:
 
-  sudo gem install lockfile
+  sudo gem install cleverua-lockfile
 
 == LICENSE:
 
