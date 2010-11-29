@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-This ruby gem allows you create a lock file on disk right before it yields given code block. It would not allow to yield the block again while the first one finished (ie while lock file exists). This gem currently works on UNIX operational systems.
+This ruby gem allows you create a lock file on disk right before it yields given code block. It would not allow to yield the block again while the first one finished (ie while lock file exists). This gem currently works on UNIX operating systems. This gem should not be used on NFS (http://lwn.net/Articles/251004/)
 
 == USAGE EXAMPLE
 
@@ -23,7 +23,7 @@ This ruby gem allows you create a lock file on disk right before it yields given
 
 == REQUIREMENTS:
 
-* a UNIX operational system
+* a UNIX operating system
 
 == INSTALL:
 
