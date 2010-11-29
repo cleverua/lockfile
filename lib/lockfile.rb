@@ -19,7 +19,7 @@ module Lockfile
   
   private
   def obtain_lock(lf, write_pid)
-    open(lf, "w+") do |o|
+    File.open(lf, "w+") do |o|
       o.write(Process.pid) if write_pid
     end  
   end
