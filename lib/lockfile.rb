@@ -7,10 +7,8 @@ module Lockfile
   end
   
   def with_lock_file(lock_file_path, write_pid = true)
-    return false if has_lock?(lock_file_path)
-    
+    return false unless obtain_lock(lock_file_path, write_pid)
     begin
-      obtain_lock(lock_file_path, write_pid)
       yield
     ensure 
       release_lock(lock_file_path)
@@ -19,9 +17,12 @@ module Lockfile
   
   private
   def obtain_lock(lf, write_pid)
-    File.open(lf, "w+") do |o|
+    File.open(lf, File::CREAT | File::EXCL | File::WRONLY) do |o|
       o.write(Process.pid) if write_pid
     end  
+    return true
+  rescue
+    return false
   end
   
   def release_lock(lf)

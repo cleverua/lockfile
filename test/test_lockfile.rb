@@ -25,7 +25,6 @@ class TestLockfile < Test::Unit::TestCase
   class Lockfile::File < ::File
     #slow open down once to demonstrate race condition
     def self.open(*args)
-      puts "hi"
       unless @no_sleep
         @no_sleep = true
         sleep(1)
@@ -36,6 +35,8 @@ class TestLockfile < Test::Unit::TestCase
 
 
   should "not allow to launch other processes while the previous one has lock" do
+    Lockfile.ensure_no_lock_file_exists(LOCK_FILE)
+
     p1 = TestProcess.new
     p2 = TestProcess.new
     p3 = TestProcess.new
@@ -48,8 +49,7 @@ class TestLockfile < Test::Unit::TestCase
     t2.join
     t3.join
     
-    assert p1.launched? 
-    assert !p2.launched?
-    assert !p3.launched?
+    #only one should launch
+    assert_equal 1, [p1, p2, p3].select{|i| i.launched? }.size
   end
 end
