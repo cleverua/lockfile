@@ -19,7 +19,7 @@ This ruby gem allows you create a lock file on disk right before it yields given
 === TO FORCE STOP
   include Lockfile
   
-  Lockfile.force_stop(LOCK_FILE_PATH)
+  Lockfile.release_lock(LOCK_FILE_PATH)
 
 == REQUIREMENTS:
 
